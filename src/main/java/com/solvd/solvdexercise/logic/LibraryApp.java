@@ -7,9 +7,15 @@ import com.solvd.solvdexercise.exceptions.NoElementFoundException;
 import com.solvd.solvdexercise.exceptions.NoMoreSpaceException;
 import com.solvd.solvdexercise.data.Book;
 import com.solvd.solvdexercise.data.Dvd;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 
@@ -23,6 +29,9 @@ public class LibraryApp {
     private static Logger LOGGER = LogManager.getLogger(LibraryApp.class);
 
     public static void main(String[] args) throws NoMoreSpaceException {
+
+        String inputFile = "input.txt";
+        String outputFile = "output.txt";
 
 
         Library dvd = new Dvd("John Nowak", "Superman", 125);
@@ -105,7 +114,25 @@ public class LibraryApp {
         System.out.println("Printing left products");
         System.out.println(queue);
 
+// Read the text from the file and calculate the numbers of the unique words. Write the result to the file.
+//The main requirement is: using StringUtils and FileUtils to implement it with minimum lines of code.
 
+        try {
+            List<String> lines = FileUtils.readLines(new File(inputFile), StandardCharsets.UTF_8);
+            String text = StringUtils.join(lines, " ");
+            String[] words = StringUtils.split(text);
+
+            Set<String> uniqueWords = new HashSet<>();
+
+            for (String word : words) {
+                uniqueWords.add(word.toLowerCase());
+            }
+
+            FileUtils.writeStringToFile(new File(outputFile), "Number of unique words is " + uniqueWords.size(), StandardCharsets.UTF_8);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
 
     }
