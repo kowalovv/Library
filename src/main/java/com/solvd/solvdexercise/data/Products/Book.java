@@ -1,6 +1,7 @@
-package com.solvd.solvdexercise.data;
+package com.solvd.solvdexercise.data.Products;
 
 import com.solvd.solvdexercise.categories.CategoryB;
+import com.solvd.solvdexercise.data.Library;
 
 import java.util.Objects;
 

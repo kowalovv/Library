@@ -8,6 +8,11 @@ public abstract class Library implements CategoryName, CategoryA, CategoryB, Cat
     private String author;
     private String title;
 
+    static {
+        System.out.println("Static block created");
+        System.out.println();
+    }
+
     public Library(String author, String title) {
         this.author = author;
         this.title = title;
@@ -49,8 +54,5 @@ public abstract class Library implements CategoryName, CategoryA, CategoryB, Cat
                 ", title='" + title + '\'' +
                 '}';
     }
-    static {
-        System.out.println("Static block created");
-        System.out.println();
-    }
+
 }

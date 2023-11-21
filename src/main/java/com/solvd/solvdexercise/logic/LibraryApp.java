@@ -2,11 +2,12 @@ package com.solvd.solvdexercise.logic;
 
 import com.solvd.solvdexercise.categories.CategoryName;
 import com.solvd.solvdexercise.collections.CustomLinkedList;
+import com.solvd.solvdexercise.data.Clients.LibraryMember;
+import com.solvd.solvdexercise.data.Products.Book;
+import com.solvd.solvdexercise.data.Products.Dvd;
 import com.solvd.solvdexercise.data.Library;
 import com.solvd.solvdexercise.exceptions.NoElementFoundException;
 import com.solvd.solvdexercise.exceptions.NoMoreSpaceException;
-import com.solvd.solvdexercise.data.Book;
-import com.solvd.solvdexercise.data.Dvd;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
@@ -14,7 +15,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -53,22 +53,22 @@ public class LibraryApp {
         System.out.println();
         LOGGER.info("Working!!");
 
-// try catch
+        // try catch
         try {
             LibraryMethods.printAllClients();
         } catch (NoElementFoundException e) {
             System.err.println(e.getMessage());
         }
 
-// throws exception in main method to ignore exception
+        // throws exception in main method to ignore exception
         LibraryMethods.checkSpaceInDatabase();
 
 
-// try with resources in method body
+        // try with resources in method body
         LibraryMethods.addToDatabase("Spiderman");
 
 
-// LinkedList with generic
+        // LinkedList with generic
 
         CustomLinkedList<Library> custom = new CustomLinkedList<>();
         custom.add(book);
@@ -77,13 +77,13 @@ public class LibraryApp {
         custom.display();
 
 
-// ArrayList
+        // ArrayList
         List<Library> list = new ArrayList<>();
         list.add(dvd2);
         list.add(book2);
         System.out.println("\nPrinting ArrayList :\n\n" + list);
 
-// HashSet
+        // HashSet
         HashSet<Library> uniqueProducts = new HashSet<>();
         uniqueProducts.add(book);
         uniqueProducts.add(book);
@@ -93,7 +93,7 @@ public class LibraryApp {
         int size = uniqueProducts.size();
         System.out.println("\nPrinting size of HashSet " + size + "\n");
 
-// TreeMap
+        // TreeMap
         Map<Integer, Library> products = new TreeMap<>();
         products.put(1, book);
         products.put(3, dvd);
@@ -103,7 +103,7 @@ public class LibraryApp {
             System.out.println(integerLibraryEntry);
         }
 
-// Queue
+        // Queue
         Queue<Library> queue = new ArrayBlockingQueue<>(3);
         queue.add(book);
         queue.add(book2);
@@ -114,8 +114,8 @@ public class LibraryApp {
         System.out.println("Printing left products");
         System.out.println(queue);
 
-// Read the text from the file and calculate the numbers of the unique words. Write the result to the file.
-//The main requirement is: using StringUtils and FileUtils to implement it with minimum lines of code.
+        // Read the text from the file and calculate the numbers of the unique words. Write the result to the file.
+        //The main requirement is: using StringUtils and FileUtils to implement it with minimum lines of code.
 
         try {
             List<String> lines = FileUtils.readLines(new File(inputFile), StandardCharsets.UTF_8);
@@ -133,7 +133,6 @@ public class LibraryApp {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
 
     }
 
