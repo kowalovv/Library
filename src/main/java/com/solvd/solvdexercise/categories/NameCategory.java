@@ -1,6 +1,6 @@
 package com.solvd.solvdexercise.categories;
 
-public interface AllCategories {
+public interface NameCategory {
 
     String NAME = "Great Library";
 

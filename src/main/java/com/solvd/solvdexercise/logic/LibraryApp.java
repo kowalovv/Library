@@ -1,6 +1,6 @@
 package com.solvd.solvdexercise.logic;
 
-import com.solvd.solvdexercise.categories.AllCategories;
+import com.solvd.solvdexercise.categories.NameCategory;
 import com.solvd.solvdexercise.collections.CustomLinkedList;
 import com.solvd.solvdexercise.data.Products.Book;
 import com.solvd.solvdexercise.data.Products.Dvd;
@@ -136,6 +136,6 @@ public class LibraryApp {
     }
 
     private static void printLibraryName() {
-        System.out.println(AllCategories.NAME);
+        System.out.println(NameCategory.NAME);
     }
 }
