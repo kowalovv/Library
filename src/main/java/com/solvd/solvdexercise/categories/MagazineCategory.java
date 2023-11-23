@@ -1,5 +1,5 @@
 package com.solvd.solvdexercise.categories;
 
-public interface CategoryC {
+public interface MagazineCategory {
     String CATEGORY_NAME = "Magazine";
 }

@@ -4,7 +4,7 @@ import com.solvd.solvdexercise.categories.*;
 
 import java.util.Objects;
 
-public abstract class Library implements CategoryName, CategoryA, CategoryB, CategoryC, CategoryD {
+public abstract class Library implements AllCategories, DvdCategory, BookCategory, MagazineCategory, BoardGamesCategory {
     private String author;
     private String title;
 

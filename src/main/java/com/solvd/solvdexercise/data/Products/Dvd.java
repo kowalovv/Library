@@ -1,6 +1,6 @@
 package com.solvd.solvdexercise.data.Products;
 
-import com.solvd.solvdexercise.categories.CategoryA;
+import com.solvd.solvdexercise.categories.DvdCategory;
 import com.solvd.solvdexercise.data.Library;
 
 
@@ -46,6 +46,6 @@ public class Dvd extends Library {
 
     @Override
     public void printCategory() {
-        System.out.println(CategoryA.CATEGORY_NAME);
+        System.out.println(DvdCategory.CATEGORY_NAME);
     }
 }

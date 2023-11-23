@@ -1,6 +1,6 @@
 package com.solvd.solvdexercise.data.Products;
 
-import com.solvd.solvdexercise.categories.CategoryC;
+import com.solvd.solvdexercise.categories.MagazineCategory;
 import com.solvd.solvdexercise.data.Library;
 
 public class Magazine extends Library {
@@ -22,6 +22,6 @@ public class Magazine extends Library {
 
     @Override
     public void printCategory() {
-        System.out.println(CategoryC.CATEGORY_NAME);
+        System.out.println(MagazineCategory.CATEGORY_NAME);
     }
 }

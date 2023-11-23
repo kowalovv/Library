@@ -1,5 +1,5 @@
 package com.solvd.solvdexercise.categories;
 
-public interface CategoryA {
+public interface DvdCategory {
     String CATEGORY_NAME = "DVD";
 }
