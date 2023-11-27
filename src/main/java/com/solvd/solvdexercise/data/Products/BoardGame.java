@@ -2,14 +2,15 @@ package com.solvd.solvdexercise.data.Products;
 
 import com.solvd.solvdexercise.categories.BoardGameCategory;
 import com.solvd.solvdexercise.data.Library;
+import com.solvd.solvdexercise.enums.ProductCategory;
 
 import java.util.Objects;
 
 public class BoardGame extends Library {
     private int elementsNumber;
 
-    public BoardGame(String author, String title, int elementsNumber) {
-        super(author, title);
+    public BoardGame(String author, String title, ProductCategory category, int elementsNumber) {
+        super(author, title, category);
         this.elementsNumber = elementsNumber;
     }
 
@@ -40,6 +41,12 @@ public class BoardGame extends Library {
     @Override
     public void printCategory() {
         System.out.println(BoardGameCategory.CATEGORY_NAME);
+    }
+
+    @Override
+    public String toString() {
+        return "Title: " + getTitle();
+
     }
 }
 

@@ -2,6 +2,7 @@ package com.solvd.solvdexercise.data.Products;
 
 import com.solvd.solvdexercise.categories.DvdCategory;
 import com.solvd.solvdexercise.data.Library;
+import com.solvd.solvdexercise.enums.ProductCategory;
 
 
 import java.util.Objects;
@@ -9,8 +10,8 @@ import java.util.Objects;
 public class Dvd extends Library {
     private int duration;
 
-    public Dvd(String author, String title, int duration) {
-        super(author, title);
+    public Dvd(String author, String title, ProductCategory category, int duration) {
+        super(author, title, category);
         this.duration = duration;
     }
 

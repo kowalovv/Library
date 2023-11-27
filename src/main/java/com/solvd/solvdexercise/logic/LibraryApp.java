@@ -2,9 +2,11 @@ package com.solvd.solvdexercise.logic;
 
 import com.solvd.solvdexercise.categories.AllCategories;
 import com.solvd.solvdexercise.collections.CustomLinkedList;
+import com.solvd.solvdexercise.data.Products.BoardGame;
 import com.solvd.solvdexercise.data.Products.Book;
 import com.solvd.solvdexercise.data.Products.Dvd;
 import com.solvd.solvdexercise.data.Library;
+import com.solvd.solvdexercise.enums.ProductCategory;
 import com.solvd.solvdexercise.exceptions.NoElementFoundException;
 import com.solvd.solvdexercise.exceptions.NoMoreSpaceException;
 import org.apache.commons.io.FileUtils;
@@ -17,6 +19,10 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.function.Consumer;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 
 public class LibraryApp {
@@ -32,25 +38,94 @@ public class LibraryApp {
         String inputFile = "input.txt";
         String outputFile = "output.txt";
 
+        Library dvd = new Dvd("John Nowak", "Superman", ProductCategory.ELECTRONIC, 125);
+        Library dvd2 = new Dvd("Nowak", "Superman", ProductCategory.ELECTRONIC, 125);
+        Library book = new Book("Jan Kowalski", "Hulk", ProductCategory.LITERATURE, 347);
+        Library book2 = new Book("John Wick", "Hulk", ProductCategory.LITERATURE, 347);
+        Library book3 = new Book("Ton Gates", "Batman", ProductCategory.LITERATURE, 123);
 
-        Library dvd = new Dvd("John Nowak", "Superman", 125);
-        Library dvd2 = new Dvd("Nowak", "Superman", 125);
-        Library book = new Book("Jan Kowalski", "Hulk", 347);
-        Library book2 = new Book("John Wick", "Hulk", 347);
-        Library book3 = new Book("Ton Gates", "Batman", 123);
-        System.out.println(dvd.equals(dvd2));
-        System.out.println(dvd.equals(book));
-        System.out.println(book.equals(book3));
-        System.out.println();
-        System.out.println(dvd);
-        System.out.println();
-        System.out.println(book2);
-        System.out.println();
-        printLibraryName();
-        dvd.printCategory();
-        book3.printCategory();
-        System.out.println();
-        LOGGER.info("Working!!");
+
+//        Practical part:
+//        1. Use at least 5 lambda functions from the java.util.function package.
+//        2. Create 3 custom Lambda functions with generics.
+//        3. Create 5 complex Enums(with fields, methods, blocks)
+
+//        enums
+        ProductCategory.printAllCategories();
+        System.out.println("--------");
+
+//        Create 3 custom Lambda functions with generics.
+//        Lambda 1
+        Function<Library, String> getProductTitle = Library::getTitle;
+        String productTitle = getProductTitle.apply(book3);
+        System.out.println("Book3 title is " + productTitle);
+        System.out.println("--------");
+
+//        Lambda 2
+        Function<Book, Integer> getPagesNumber = Book::getPagesNumber;
+        Integer pagesNumber = getPagesNumber.apply((Book) book);
+        System.out.println("Book pages number is " + pagesNumber);
+        System.out.println("--------");
+
+//        Lambda 3
+        Function<Library, ProductCategory> printProductCategory = Library::getCategory;
+        ProductCategory result = printProductCategory.apply(book2);
+        System.out.println("Book2 Category is " + result.getDescription());
+        System.out.println("--------");
+
+//        Use at least 5 lambda functions from the java.util.function package.
+//        Lambda 1
+        Consumer<String> print3Times = s -> {
+            System.out.println(s);
+            System.out.println(s);
+            System.out.println(s);
+        };
+        print3Times.accept(productTitle);
+        System.out.println("--------");
+
+//        Lambda 2
+        Predicate<Library> checkIsLiterature = l -> l.getCategory().equals(ProductCategory.LITERATURE);
+        boolean isLiterature = checkIsLiterature.test(book3);
+        System.out.println(isLiterature);
+        System.out.println("--------");
+
+//        Lambda 3
+        Predicate<Library> checkIsBook = l -> l instanceof Book;
+        boolean isBook = checkIsBook.test(book3);
+        boolean isBook2 = checkIsBook.test(dvd2);
+        System.out.println(isBook);
+        System.out.println(isBook2);
+        System.out.println("--------");
+
+//        Lambda 4
+        Runnable printProductInfo = () -> System.out.println(book2);
+        System.out.println("Printing info about book2:\n");
+        printProductInfo.run();
+        System.out.println("--------");
+
+//        Lambda 5
+        Supplier<BoardGame> addBoardGame = () -> new BoardGame("RR Martin", "Game of Thrones",ProductCategory.GAMES, 228);
+        BoardGame boardGame = addBoardGame.get();
+        System.out.println("Game added to library. Printing information:\n");
+        System.out.println(boardGame);
+        System.out.println("--------");
+
+
+
+
+//        System.out.println(dvd.equals(dvd2));
+//        System.out.println(dvd.equals(book));
+//        System.out.println(book.equals(book3));
+//        System.out.println();
+//        System.out.println(dvd);
+//        System.out.println();
+//        System.out.println(book2);
+//        System.out.println();
+//        printLibraryName();
+//        dvd.printCategory();
+//        book3.printCategory();
+//        System.out.println();
+//        LOGGER.info("Working!!");
 
         // try catch
         try {

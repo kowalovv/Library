@@ -1,21 +1,28 @@
 package com.solvd.solvdexercise.data;
 
 import com.solvd.solvdexercise.categories.*;
+import com.solvd.solvdexercise.enums.ProductCategory;
 
 import java.util.Objects;
 
 public abstract class Library implements AllCategories, DvdCategory, BookCategory, MagazineCategory, BoardGameCategory {
     private String author;
     private String title;
+    private ProductCategory category;
 
     static {
         System.out.println("Static block created");
         System.out.println();
     }
 
-    public Library(String author, String title) {
+    public Library(String author, String title, ProductCategory category) {
         this.author = author;
         this.title = title;
+        this.category = category;
+    }
+
+    public ProductCategory getCategory() {
+        return category;
     }
 
     public String getAuthor() {
