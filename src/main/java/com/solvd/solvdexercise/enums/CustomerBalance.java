@@ -2,8 +2,8 @@ package com.solvd.solvdexercise.enums;
 
 public enum CustomerBalance {
 
-    OVERDUE("Customer has exceeded the deadline"),
-    NOT_OVERDUE("Customer did not exceed the deadline");
+    OVERDUE_BALANCE("Customer has exceeded the deadline"),
+    NOT_OVERDUE_BALANCE("Customer did not exceed the deadline");
 
     private final String description;
 

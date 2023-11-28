@@ -1,4 +1,4 @@
-package com.solvd.solvdexercise.data.Clients;
+package com.solvd.solvdexercise.data.clients;
 
 public class Student extends LibraryMember{
 

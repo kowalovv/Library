@@ -2,9 +2,9 @@ package com.solvd.solvdexercise.logic;
 
 import com.solvd.solvdexercise.categories.AllCategories;
 import com.solvd.solvdexercise.collections.CustomLinkedList;
-import com.solvd.solvdexercise.data.Products.BoardGame;
-import com.solvd.solvdexercise.data.Products.Book;
-import com.solvd.solvdexercise.data.Products.Dvd;
+import com.solvd.solvdexercise.data.products.BoardGame;
+import com.solvd.solvdexercise.data.products.Book;
+import com.solvd.solvdexercise.data.products.Dvd;
 import com.solvd.solvdexercise.data.Library;
 import com.solvd.solvdexercise.enums.ProductCategory;
 import com.solvd.solvdexercise.exceptions.NoElementFoundException;
@@ -109,8 +109,6 @@ public class LibraryApp {
         System.out.println("Game added to library. Printing information:\n");
         System.out.println(boardGame);
         System.out.println("--------");
-
-
 
 
 //        System.out.println(dvd.equals(dvd2));

@@ -1,4 +1,4 @@
-package com.solvd.solvdexercise.data.Products;
+package com.solvd.solvdexercise.data.products;
 
 import com.solvd.solvdexercise.categories.DvdCategory;
 import com.solvd.solvdexercise.data.Library;
