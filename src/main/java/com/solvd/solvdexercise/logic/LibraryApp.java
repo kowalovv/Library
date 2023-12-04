@@ -16,6 +16,9 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -23,7 +26,8 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
-
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class LibraryApp {
 
@@ -43,6 +47,64 @@ public class LibraryApp {
         Library book = new Book("Jan Kowalski", "Hulk", ProductCategory.LITERATURE, 347);
         Library book2 = new Book("John Wick", "Hulk", ProductCategory.LITERATURE, 347);
         Library book3 = new Book("Ton Gates", "Batman", ProductCategory.LITERATURE, 123);
+
+//        1 stream
+        List<Library> books = List.of(book, book2, book3, book, book3);
+        List<String> titles = books.stream()
+                .map(Library::getTitle)
+                .collect(Collectors.toList());
+
+//        2 stream
+        long uniqueTitles = LibraryMethods.countUniqueTitles(books);
+
+//        3 stream
+        double weightOfBooks = Book.calculateApproximateWeightOfBooks(books);
+
+//        4 stream
+        List<Library> items = List.of(book, dvd);
+        List<Library> onlyBooks = items.stream()
+                .filter(b -> b instanceof Book)
+                .collect(Collectors.toList());
+
+//        5 stream
+        List<Library> dvds = List.of(dvd, dvd2);
+        boolean containSuperman = dvds.stream()
+                .anyMatch(d -> d.getTitle().equals("Superman"));
+
+//        6 stream
+        Stream<Library> sumOfPages = Stream.of(book, book2, book3);
+        long collectionPagesNumber = sumOfPages.map(library -> (Book) library)
+                .mapToLong(Book::getPagesNumber)
+                .sum();
+
+//        7 stream
+        Stream<Library> cartSummary = Stream.of(book, book2, book3, dvd, dvd2);
+        cartSummary.forEach(System.out::println);
+        System.out.println("--------");
+
+//        Using reflection extract information(modifiers,
+//        return types, parameters, etc) about fields, constructors,
+//        and methods. Create object and call method using only reflection.
+
+        String className = "com.solvd.solvdexercise.data.products.Book";
+        try {
+            Class<Book> bookClass = (Class<Book>) Class.forName(className);
+            Constructor<Book> bookConstructor = bookClass.getDeclaredConstructor(String.class, String.class, ProductCategory.class, int.class);
+            Book bookReflect = bookConstructor.newInstance("Reflection", "Class", ProductCategory.LITERATURE, 1);
+
+            Field pagesNumberField = bookClass.getDeclaredField("pagesNumber");
+            pagesNumberField.setAccessible(true);
+            pagesNumberField.set(bookReflect, 100);
+            System.out.println(bookReflect.getPagesNumber());
+            System.out.println("REFLECTION!!!");
+            System.out.println("--------");
+
+
+
+        } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException |
+                 InvocationTargetException | NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
 
 
 //        Practical part:
@@ -104,7 +166,7 @@ public class LibraryApp {
         System.out.println("--------");
 
 //        Lambda 5
-        Supplier<BoardGame> addBoardGame = () -> new BoardGame("RR Martin", "Game of Thrones",ProductCategory.GAMES, 228);
+        Supplier<BoardGame> addBoardGame = () -> new BoardGame("RR Martin", "Game of Thrones", ProductCategory.GAMES, 228);
         BoardGame boardGame = addBoardGame.get();
         System.out.println("Game added to library. Printing information:\n");
         System.out.println(boardGame);
@@ -147,7 +209,6 @@ public class LibraryApp {
         custom.add(book2);
         System.out.println("\nPrinting CustomLinkedList :\n");
         custom.display();
-
 
         // ArrayList
         List<Library> list = new ArrayList<>();
@@ -205,7 +266,6 @@ public class LibraryApp {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
 
     private static void printLibraryName() {

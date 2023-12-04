@@ -4,6 +4,7 @@ import com.solvd.solvdexercise.categories.BookCategory;
 import com.solvd.solvdexercise.data.Library;
 import com.solvd.solvdexercise.enums.ProductCategory;
 
+import java.util.List;
 import java.util.Objects;
 
 public class Book extends Library {
@@ -49,4 +50,14 @@ public class Book extends Library {
         System.out.println(BookCategory.CATEGORY_NAME);
     }
 
+
+    public static double calculateApproximateWeightOfBooks(List<Library> list) {
+        long count = list.stream()
+                .count();
+        return count * 0.5;
+    }
+
 }
+
+
+

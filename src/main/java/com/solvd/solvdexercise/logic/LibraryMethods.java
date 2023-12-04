@@ -1,10 +1,13 @@
 package com.solvd.solvdexercise.logic;
 
+import com.solvd.solvdexercise.data.Library;
 import com.solvd.solvdexercise.exceptions.NoElementFoundException;
 import com.solvd.solvdexercise.exceptions.NoMoreSpaceException;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 
 abstract class LibraryMethods {
 
@@ -30,7 +33,12 @@ abstract class LibraryMethods {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
+
+    static long countUniqueTitles(List<Library> list) {
+        return list.stream()
+                .distinct()
+                .count();
+    }
+
 }
