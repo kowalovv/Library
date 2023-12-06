@@ -9,11 +9,13 @@ import com.solvd.solvdexercise.data.Library;
 import com.solvd.solvdexercise.enums.ProductCategory;
 import com.solvd.solvdexercise.exceptions.NoElementFoundException;
 import com.solvd.solvdexercise.exceptions.NoMoreSpaceException;
+import com.solvd.solvdexercise.utils.Connection;
+import com.solvd.solvdexercise.utils.ConnectionPool;
+import com.solvd.solvdexercise.utils.MyThread;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -21,7 +23,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
-import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -47,6 +49,79 @@ public class LibraryApp {
         Library book = new Book("Jan Kowalski", "Hulk", ProductCategory.LITERATURE, 347);
         Library book2 = new Book("John Wick", "Hulk", ProductCategory.LITERATURE, 347);
         Library book3 = new Book("Ton Gates", "Batman", ProductCategory.LITERATURE, 123);
+
+
+//        1. Create 2 Threads using Runnable and Thread.
+//        2. Create a Connection Pool. Use collection from java.util.concurrent package. Connection class may be mocked. The pool should be
+//        threadsafe and lazy initialized.
+//        3. Initialize pool with 5 sizes. Load Connection Pool using threads and Thread Pool(7 threads). 5 threads should be able to get the
+//        connection. 2 Threads should wait for the next available connection. The program should wait as well. ---- semaphores
+//        4. Implement 4th part but with IFuture and CompletableStage.
+
+//        1.
+        MyThread thread = new MyThread();
+        thread.start();
+        System.out.println("--------");
+
+        Runnable action = () -> System.out.println("My second thread" + "\n");
+        Thread th = new Thread(action);
+        th.start();
+        System.out.println("--------");
+
+//        2.
+//        Created classes in package com.solvd.solvdexercise.utils;
+
+//        3.
+        ConnectionPool.getPool();
+        ExecutorService executorService = Executors.newFixedThreadPool(7);
+
+        for (int i = 0; i < 7; i++) {
+            executorService.submit(() -> {
+                try {
+                    Connection connection = ConnectionPool.acquireConnection();
+                    System.out.println("Thread " + Thread.currentThread().getId() + " acquired connection: " + connection);
+                    connection.executeQuery("Test Query");
+                    Thread.sleep(1000);
+                    ConnectionPool.releaseConnection(connection);
+                    System.out.println("Thread " + Thread.currentThread().getId() + " released connection: " + connection);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            });
+        }
+
+        executorService.shutdown();
+
+//        4.
+
+        ExecutorService executorService2 = Executors.newFixedThreadPool(7);
+        CompletableFuture<Void>[] futures = new CompletableFuture[7];
+        for (int i = 0; i < 7; i++) {
+            final int index = i;
+            futures[i] = CompletableFuture.supplyAsync(() -> {
+                try {
+                    Connection connection = ConnectionPool.acquireConnection();
+                    System.out.println("Thread " + Thread.currentThread().getId() + " acquired connection: " + connection);
+                    connection.executeQuery("Test Query with CompletableFuture");
+                    Thread.sleep(1000);
+                    ConnectionPool.releaseConnection(connection);
+                    System.out.println("Thread " + Thread.currentThread().getId() + " released connection: " + connection);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                return null;
+            }, executorService2);
+        }
+
+        CompletableFuture<Void> allOf = CompletableFuture.allOf(futures);
+
+        try {
+            allOf.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        executorService2.shutdown();
+
 
 //        1 stream
         List<Library> books = List.of(book, book2, book3, book, book3);
@@ -98,7 +173,6 @@ public class LibraryApp {
             System.out.println(bookReflect.getPagesNumber());
             System.out.println("REFLECTION!!!");
             System.out.println("--------");
-
 
 
         } catch (ClassNotFoundException | NoSuchMethodException | InstantiationException | IllegalAccessException |
